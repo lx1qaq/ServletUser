@@ -4,12 +4,14 @@ import com.buercorp.longxiaolin.pojo.User;
 import com.buercorp.longxiaolin.utils.DruidUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -29,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
         //解决请求参数的中文乱码
         request.setCharacterEncoding("UTF-8");
         //解决响应中文乱码
-        response.setContentType("text/html;charset=utf-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         //2. 获取所有的请求参数
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -59,8 +61,28 @@ public class RegisterServlet extends HttpServlet {
             queryRunner.update(sql,user.getUsername(),user.getPassword(),user.getAddress(),
                     user.getNickname(),user.getGender(),user.getEmail(),user.getStatus());
 
+            // 将用户信息设置为请求属性
+            request.setAttribute("nickname", user.getNickname());
+            request.setAttribute("address", user.getAddress());
+            request.setAttribute("gender", user.getGender());
+            request.setAttribute("email", user.getEmail());
+
+            System.out.println("昵称：" + user.getNickname());
+            System.out.println("地址：" + user.getAddress());
+            System.out.println("性别：" + user.getGender());
+            System.out.println("邮箱：" + user.getEmail());
+
             //如果注册成功，则向浏览器响应一句"注册成功"
-            response.getWriter().write("注册成功");
+//            response.getWriter().write("/ServletUser/userinfo.jsp");
+            //如果注册成功，跳转至 userinfo.jsp
+
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+
+            response.sendRedirect("/ServletUser/userinfo.jsp");
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
