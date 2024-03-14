@@ -45,8 +45,10 @@ public class LoginServlet extends HttpServlet {
 
             //4.存在user数据，则登录成功，否之，失败
             if (user != null) {
-                // 登录成功，则跳转至 index.html 页面
-                response.sendRedirect("/ServletUser/index.html");
+                // 登录成功，将用户信息存储在 Session 中
+                request.getSession().setAttribute("user", user);
+                // 登录成功后跳转至个人信息页面
+                response.sendRedirect("/ServletUser/userinfo.jsp");
             } else {
                 // 登录失败
                 response.getWriter().write("登录失败");
