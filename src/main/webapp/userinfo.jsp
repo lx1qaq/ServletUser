@@ -5,6 +5,11 @@
 </head>
 <body>
 <h1>User Information</h1>
+<h1>当前在线人数:</h1>
+<div> ${number} 人 </div>
+
+<a href="/ServletUser/LogoutServlet">退出登录</a>
+
 <%
     // 从 Session 中获取用户信息
     com.buercorp.longxiaolin.pojo.User user = (com.buercorp.longxiaolin.pojo.User) session.getAttribute("user");
@@ -21,5 +26,7 @@
 <%
     }
 %>
+<a href="/ServletUser/updatel.html">修改个人信息</a>
+<a href="/ServletUser/delete">删除改用户</a>
 </body>
 </html>

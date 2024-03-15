@@ -11,9 +11,19 @@ import java.util.logging.LogRecord;
 /**
  * @author 小林
  * Create on 2024/3/14 17:41
+ * <p>
+ * 1. 精准匹配
+ * @WebFilter(urlPatterns = "/LifeServlet")
+ * <p>
+ * 2. 目录匹配
+ * @WebFilter(urlPatterns = "/abc/*")
+ * <p>
+ * 3. 后缀名匹配
+ * @WebFilter(urlPatterns = "*.jsp")
+ * *
  */
 
-@WebFilter("/*")
+@WebFilter(urlPatterns = {"/ServletUser/userinfo.jsp"})
 public class indexFilter implements Filter {
 
 
@@ -22,7 +32,6 @@ public class indexFilter implements Filter {
         System.out.println("doFilter方法");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
 
 
         // 获取请求路径

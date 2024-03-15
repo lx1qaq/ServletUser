@@ -53,7 +53,6 @@ public class LoginServlet extends HttpServlet {
                 // 登录失败
                 response.getWriter().write("登录失败");
             }
-
         } catch (Exception e) {
             // 登录失败
             response.getWriter().write("登录失败");

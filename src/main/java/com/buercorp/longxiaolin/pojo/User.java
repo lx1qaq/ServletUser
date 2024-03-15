@@ -18,4 +18,10 @@ public class User implements Serializable {
     private String gender;
     private String email;
     private String status;//1 表示已激活  0表示未激活
+
+    public User(Integer userId, String nickname, String address, String gender, String email, String password, String username) {
+    }
+
+    public User() {
+    }
 }
