@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.logging.Handler;
 
 /**
+ *
+ *
+ * http://localhost:8080/user-management/user/logout
+ *
  * @author 小林
  * Create on 2024/3/15 16:19
  */
