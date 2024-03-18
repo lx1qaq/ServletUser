@@ -1,6 +1,7 @@
 package com.buercorp.longxiaolin.servlet;
 
 import com.buercorp.longxiaolin.pojo.User;
+import com.buercorp.longxiaolin.serive.impl.UserServiceImpl;
 import com.buercorp.longxiaolin.utils.DruidUtil;
 import org.apache.commons.dbutils.QueryRunner;
 
@@ -27,36 +28,24 @@ public class UpdateUserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         //解决响应中文乱码
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            // 获取用户ID
-            Integer userId = Integer.valueOf(request.getParameter("userId"));
 
-            User user = new User();
-            QueryRunner queryRunner = new QueryRunner(DruidUtil.getDataSource());
-            String sql = "update user set name=?,password=?,address=?nickname=?,gender=?,email=?";
-            //将user用户存储的数据 插入 到数据库中
+        // 获取用户ID
+        Integer userId = Integer.valueOf(request.getParameter("userId"));
 
-            queryRunner.update(sql, user.getUsername(), user.getPassword(), user.getAddress(),
-                    user.getNickname(), user.getGender(), user.getEmail(), user.getStatus());
+        User user = new User();
+        UserServiceImpl userService = new UserServiceImpl();
+        boolean b = userService.updateUser(user);
 
+        User newUser = new User(userId, user.getNickname(), user.getAddress(), user.getGender(), user.getEmail(), user.getPassword(), user.getUsername());
 
-            User newUser = new User(userId, user.getNickname(), user.getAddress(), user.getGender(), user.getEmail(), user.getPassword(), user.getUsername());
+        // 将用户信息设置为请求属性
+        request.setAttribute("user", newUser);
+        System.out.println();
 
-            // 将用户信息设置为请求属性
-            request.setAttribute("user", newUser);
-            System.out.println();
+        HttpSession session = request.getSession();
+        session.setAttribute("user", newUser);
 
-            HttpSession session = request.getSession();
-            session.setAttribute("user", newUser);
-
-            response.sendRedirect("/ServletUser/userinfo.jsp");
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        response.sendRedirect("/ServletUser/userinfo.jsp");
     }
 
     @Override

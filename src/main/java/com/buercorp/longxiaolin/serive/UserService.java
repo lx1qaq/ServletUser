@@ -6,7 +6,14 @@ import com.buercorp.longxiaolin.pojo.User;
  * @author 小林
  * Create on 2024/3/15 19:58
  */
-public interface DeleteUserService {
+public interface UserService {
+
+
+    boolean insertUser(User user);
+
+    boolean updateUser(User user);
+
+    User getUser(String username,String password);
 
     boolean deleteUser(User user);
 }

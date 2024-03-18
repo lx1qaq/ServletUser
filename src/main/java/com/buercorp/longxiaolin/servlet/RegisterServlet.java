@@ -2,6 +2,7 @@ package com.buercorp.longxiaolin.servlet;
 
 import com.buercorp.longxiaolin.pojo.User;
 import com.buercorp.longxiaolin.pojo.UserInfo;
+import com.buercorp.longxiaolin.serive.impl.UserServiceImpl;
 import com.buercorp.longxiaolin.utils.DruidUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -51,20 +52,23 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             // 使用 BeanUtils.populate 将接收到的参数保存到 user 对象中
-            BeanUtils.populate(user,parameterMap);
+            BeanUtils.populate(user, parameterMap);
 
-            //4. 使用DBUtils将用户信息存储到数据库
-            //这里需要mysql驱动、druid、dbutils的jar包
-            QueryRunner queryRunner = new QueryRunner(DruidUtil.getDataSource());
-            String sql = "insert into user values (null,?,?,?,?,?,?,?)";
+//            //4. 使用DBUtils将用户信息存储到数据库
+//            //这里需要mysql驱动、druid、dbutils的jar包
+//            QueryRunner queryRunner = new QueryRunner(DruidUtil.getDataSource());
+//            String sql = "insert into user values (null,?,?,?,?,?,?,?)";
+//
+//            //将user用户存储的数据 插入 到数据库中
+//            queryRunner.update(sql,user.getUsername(),user.getPassword(),user.getAddress(),
+//                    user.getNickname(),user.getGender(),user.getEmail(),user.getStatus());
 
-            //将user用户存储的数据 插入 到数据库中
-            queryRunner.update(sql,user.getUsername(),user.getPassword(),user.getAddress(),
-                    user.getNickname(),user.getGender(),user.getEmail(),user.getStatus());
+            UserServiceImpl userService = new UserServiceImpl();
+            boolean b = userService.insertUser(user);
 
-            UserInfo userInfo=new UserInfo(user.getNickname(), user.getAddress(), user.getGender(), user.getEmail());
+            UserInfo userInfo = new UserInfo(user.getNickname(), user.getAddress(), user.getGender(), user.getEmail());
             // 将用户信息设置为请求属性
-           request.setAttribute("userInfo",userInfo);
+            request.setAttribute("userInfo", userInfo);
 
 
             //如果注册成功，则向浏览器响应一句"注册成功"

@@ -1,9 +1,7 @@
 package com.buercorp.longxiaolin.servlet;
 
 import com.buercorp.longxiaolin.pojo.User;
-import com.buercorp.longxiaolin.serive.DeleteUserServiceImpl;
-import com.buercorp.longxiaolin.utils.DruidUtil;
-import org.apache.commons.dbutils.QueryRunner;
+import com.buercorp.longxiaolin.serive.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 
 /**
  * @author 小林
@@ -37,8 +34,11 @@ public class DeleteUserServlet extends HttpServlet {
         }
 
         System.out.println("从Session中获取到的用户ID：" + userId);
-        DeleteUserServiceImpl deleteUserService = new DeleteUserServiceImpl();
+
+        UserServiceImpl deleteUserService = new UserServiceImpl();
+
         boolean isDeleteSucc = deleteUserService.deleteUser(user);
+
         if (isDeleteSucc) {
             HttpSession session = request.getSession();
             session.invalidate();
