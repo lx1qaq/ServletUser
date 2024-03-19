@@ -9,7 +9,7 @@ import com.buercorp.longxiaolin.serive.UserService;
  * Create on 2024/3/15 19:59
  */
 public class UserServiceImpl implements UserService {
-    private UserDaoImpl userDao = new UserDaoImpl();
+    private static UserDaoImpl userDao = new UserDaoImpl();
 
     @Override
     public boolean insertUser(User user) {

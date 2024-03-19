@@ -50,35 +50,35 @@ public class UpdateUserServlet extends HttpServlet {
         }
 
 
-        User user = new User();
+        /**
+         * 直接可以用之前从session中取出来的对象进行操作
+         */
 
         //设置默认的status为"0"
-        user.setStatus("0");
+        sessionUser.setStatus("0");
         try {
-            BeanUtils.populate(user, parameterMap);
+            BeanUtils.populate(sessionUser, parameterMap);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
 
-
         UserServiceImpl userService = new UserServiceImpl();
-        boolean b = userService.updateUser(id, user);
-        User userById = userService.getUserById(id);
+        userService.updateUser(id, sessionUser);
 
 
-        UserInfo userInfo = new UserInfo(userById.getNickname(), userById.getAddress(), userById.getGender(), userById.getEmail());
+        UserInfo userInfo = new UserInfo(sessionUser.getNickname(), sessionUser.getAddress(), sessionUser.getGender(), sessionUser.getEmail());
 
         request.setAttribute("userInfo", userInfo);
 
         System.out.println(userInfo);
 
-        System.out.println(userById);
+        System.out.println(sessionUser);
 
 
         // 将用户信息设置为请求属性
-        request.getSession().setAttribute("user", userById);
+        request.getSession().setAttribute("user", sessionUser);
 
         response.sendRedirect("/ServletUser/userinfo.jsp");
     }
