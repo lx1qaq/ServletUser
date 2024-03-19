@@ -27,6 +27,7 @@
     }
 %>
 <a href="/ServletUser/updatel.html">修改个人信息</a>
+
 <a href="/ServletUser/delete">删除改用户</a>
 </body>
 </html>

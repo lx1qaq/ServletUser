@@ -51,16 +51,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(Integer id,User user) {
 
         QueryRunner queryRunner = new QueryRunner(DruidUtil.getDataSource());
-        String sql = "update user set name=?,password=?,address=?nickname=?,gender=?,email=? Where id=?";
+        String sql = "update user set username=?, password=?, address=?, nickname=?, gender=?, email=?, status=? where id=?";
         int update = 0;
         //将user用户存储的数据 插入 到数据库中
         try {
             update = queryRunner.update(sql, user.getUsername(), user.getPassword(), user.getAddress(),
-                    user.getNickname(), user.getGender(), user.getEmail(), user.getStatus());
-            User newUser = new User(user.getId(), user.getNickname(), user.getAddress(), user.getGender(), user.getEmail(), user.getPassword(), user.getUsername());
+                    user.getNickname(), user.getGender(), user.getEmail(), user.getStatus(),id);
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,6 +76,21 @@ public class UserDaoImpl implements UserDao {
         try {
             //执行查询，查询一条数据，封装到User中
             user = queryRunner.query(sql, new BeanHandler<>(User.class), username, password);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtil.getDataSource());
+        String sql = "select * from user where id=?";
+        User user;
+        try {
+            //执行查询，查询一条数据，封装到User中
+            user = queryRunner.query(sql, new BeanHandler<>(User.class), id);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

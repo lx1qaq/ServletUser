@@ -11,9 +11,11 @@ public interface UserService {
 
     boolean insertUser(User user);
 
-    boolean updateUser(User user);
+    boolean updateUser(Integer id,User user);
 
     User getUser(String username,String password);
 
     boolean deleteUser(User user);
+
+    User getUserById(Integer id);
 }
